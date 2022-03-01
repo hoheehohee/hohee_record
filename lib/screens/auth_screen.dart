@@ -9,7 +9,7 @@ class AuthScreen extends StatelessWidget {
     return Scaffold(
       body: PageView(
         children: [
-          IntroPage(),
+          const IntroPage(),
           Container(
             color: Colors.accents[2],
           ),

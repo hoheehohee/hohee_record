@@ -1,7 +1,6 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:hohee_record/router/locations.dart';
-import 'package:hohee_record/screens/auth_screen.dart';
 import 'package:hohee_record/screens/splash_screen.dart';
 import 'package:hohee_record/utils/logger.dart';
 
@@ -63,6 +62,31 @@ class HoheeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+        primaryColorLight: Colors.green[100],
+        fontFamily: 'Bmjua',
+        textTheme: const TextTheme(
+          headline4: TextStyle(
+            fontFamily: 'Bmjua',
+          ),
+          button: TextStyle(
+            color: Colors.white,
+          ),
+
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.green),
+            overlayColor: MaterialStateProperty.all(Colors.green[400]),
+          ),
+        ),
+        buttonTheme: ButtonThemeData(
+          buttonColor: Colors.green,
+          highlightColor: Colors.green[50]
+
+        ),
+      ),
       routeInformationParser: BeamerParser(),
       routerDelegate: _routerDelegate,
     );

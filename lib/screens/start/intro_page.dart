@@ -16,14 +16,10 @@ class IntroPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const Text(
-              'Hohee 마켓',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
-                color: Colors.green,
-              ),
-            ),
+            Text('Hohee 마켓',
+                style: Theme.of(context).textTheme.headline4!.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                    )),
             ExtendedImage.asset('assets/imgs/carrot_intro.png'),
             const Text(
               '우리 동네 중고 직거래 hohee 마켓',
@@ -41,12 +37,9 @@ class IntroPage extends StatelessWidget {
                   onPressed: () {
                     logger.d('on Text button clicked!!');
                   },
-                  child: const Text(
+                  child: Text(
                     '내 동네 설정하고 시작하기',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    style: Theme.of(context).textTheme.button
                   ),
                 ),
               ],
