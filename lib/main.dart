@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
       future: Future.delayed(const Duration(seconds: 3), () => 100),
       builder: (context, snapshot) {
         return AnimatedSwitcher(
-          duration: const Duration(milliseconds: 1000),
+          duration: const Duration(milliseconds: 300),
           child: _splashLoadingWidget(snapshot),
         );
       },
@@ -66,6 +66,7 @@ class HoheeApp extends StatelessWidget {
         primarySwatch: Colors.green,
         primaryColorLight: Colors.green[100],
         fontFamily: 'Bmjua',
+        hintColor: Colors.grey[350],
         textTheme: const TextTheme(
           headline4: TextStyle(
             fontFamily: 'Bmjua',
