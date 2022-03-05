@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hohee_record/screens/start/address_page.dart';
+import 'package:hohee_record/screens/start/start_page.dart';
 import 'package:hohee_record/screens/start/intro_page.dart';
 
-class AuthScreen extends StatelessWidget {
-  AuthScreen({Key? key}) : super(key: key);
+class StartScreen extends StatelessWidget {
+  StartScreen({Key? key}) : super(key: key);
 
   PageController _pageController = PageController();
 
@@ -12,13 +13,11 @@ class AuthScreen extends StatelessWidget {
     return Scaffold(
       body: PageView(
         controller: _pageController,
-        physics: const NeverScrollableScrollPhysics(),
+        // physics: const NeverScrollableScrollPhysics(),
         children: [
           IntroPage(_pageController),
-          AddressPage(),
-          Container(
-            color: Colors.accents[5],
-          )
+          const AddressPage(),
+          const AuthPage(),
         ],
       )
     );

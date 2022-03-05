@@ -25,7 +25,7 @@ class AuthLocation extends BeamLocation {
       BuildContext context, RouteInformationSerializable state) {
     return [
       BeamPage(
-        child: AuthScreen(),
+        child: StartScreen(),
         key: ValueKey('auth'),
       )
     ];
