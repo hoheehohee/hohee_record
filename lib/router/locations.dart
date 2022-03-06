@@ -1,6 +1,6 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/widgets.dart';
-import 'package:hohee_record/screens/auth_screen.dart';
+import 'package:hohee_record/screens/start_screen.dart';
 import 'package:hohee_record/screens/home_screen.dart';
 
 class HomeLocation extends BeamLocation {

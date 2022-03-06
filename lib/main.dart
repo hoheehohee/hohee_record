@@ -77,15 +77,29 @@ class HoheeApp extends StatelessWidget {
 
         ),
         textButtonTheme: TextButtonThemeData(
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.green),
-            overlayColor: MaterialStateProperty.all(Colors.green[400]),
+          style: TextButton.styleFrom(
+            backgroundColor: Colors.green,
+            primary: Colors.white,
+            minimumSize: const Size(48, 48),
           ),
+          // style: ButtonStyle(
+          //   backgroundColor: MaterialStateProperty.all(Colors.green),
+          //   overlayColor: MaterialStateProperty.all(Colors.green[400]),
+          // ),
         ),
         buttonTheme: ButtonThemeData(
           buttonColor: Colors.green,
           highlightColor: Colors.green[50]
 
+        ),
+        appBarTheme: const AppBarTheme(
+          elevation: 2,
+          backgroundColor: Colors.green,
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.w700
+          )
         ),
       ),
       routeInformationParser: BeamerParser(),

@@ -1,6 +1,7 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
+import '../../constants/common_size.dart';
 import '../../utils/logger.dart';
 
 class IntroPage extends StatelessWidget {
@@ -21,7 +22,7 @@ class IntroPage extends StatelessWidget {
 
         return SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: common_padding),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -70,8 +71,7 @@ class IntroPage extends StatelessWidget {
                         );
                         logger.d('on Text button clicked!!');
                       },
-                      child: Text('내 동네 설정하고 시작하기',
-                          style: Theme.of(context).textTheme.button),
+                      child: const Text('내 동네 설정하고 시작하기',),
                     ),
                   ],
                 )

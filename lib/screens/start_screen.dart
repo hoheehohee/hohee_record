@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hohee_record/screens/start/address_page.dart';
-import 'package:hohee_record/screens/start/start_page.dart';
+import 'package:hohee_record/screens/start/auth_page.dart';
 import 'package:hohee_record/screens/start/intro_page.dart';
 
 class StartScreen extends StatelessWidget {
@@ -17,7 +17,7 @@ class StartScreen extends StatelessWidget {
         children: [
           IntroPage(_pageController),
           const AddressPage(),
-          const AuthPage(),
+          AuthPage(),
         ],
       )
     );
