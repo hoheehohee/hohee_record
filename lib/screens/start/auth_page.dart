@@ -1,6 +1,9 @@
+import 'package:beamer/beamer.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
+import 'package:hohee_record/states/user_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants/common_size.dart';
 
@@ -180,11 +183,14 @@ class _AuthPageState extends State<AuthPage> {
       _verificationStatus = VerificationStatus.verifying;
     });
 
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 1));
 
     setState(() {
       _verificationStatus = VerificationStatus.verificationDone;
     });
+
+    context.read<UserProvider>().setUserAuth(true);
+    Beamer.of(context).beamToNamed('/');
   }
 }
 

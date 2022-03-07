@@ -12,7 +12,8 @@ final _routerDelegate = BeamerDelegate(
       pathPatterns: ['/'],
       check: (BuildContext context,
           BeamLocation<RouteInformationSerializable<dynamic>> state) {
-        return false;
+        return context.read<UserProvider>().userState;
+        // return true;
       },
       beamToNamed: (origin, target) => '/auth',
       // showPage: const BeamPage(child: AuthScreen()),
