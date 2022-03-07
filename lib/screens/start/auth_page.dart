@@ -190,7 +190,7 @@ class _AuthPageState extends State<AuthPage> {
     });
 
     context.read<UserProvider>().setUserAuth(true);
-    Beamer.of(context).beamToNamed('/');
+    context.beamToNamed('/');
   }
 }
 
