@@ -2,7 +2,9 @@ import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:hohee_record/router/locations.dart';
 import 'package:hohee_record/screens/splash_screen.dart';
+import 'package:hohee_record/states/user_provider.dart';
 import 'package:hohee_record/utils/logger.dart';
+import 'package:provider/provider.dart';
 
 final _routerDelegate = BeamerDelegate(
   guards: [
@@ -61,49 +63,48 @@ class HoheeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-        primaryColorLight: Colors.green[100],
-        fontFamily: 'Bmjua',
-        hintColor: Colors.grey[350],
-        textTheme: const TextTheme(
-          headline4: TextStyle(
-            fontFamily: 'Bmjua',
+    return ChangeNotifierProvider<UserProvider>(
+      create: (BuildContext context) {
+        return UserProvider();
+      },
+      child: MaterialApp.router(
+        theme: ThemeData(
+          primarySwatch: Colors.green,
+          primaryColorLight: Colors.green[100],
+          fontFamily: 'Bmjua',
+          hintColor: Colors.grey[350],
+          textTheme: const TextTheme(
+            headline4: TextStyle(
+              fontFamily: 'Bmjua',
+            ),
+            button: TextStyle(
+              color: Colors.white,
+            ),
           ),
-          button: TextStyle(
-            color: Colors.white,
+          textButtonTheme: TextButtonThemeData(
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.green,
+              primary: Colors.white,
+              minimumSize: const Size(48, 48),
+            ),
+            // style: ButtonStyle(
+            //   backgroundColor: MaterialStateProperty.all(Colors.green),
+            //   overlayColor: MaterialStateProperty.all(Colors.green[400]),
+            // ),
           ),
-
+          buttonTheme: ButtonThemeData(
+              buttonColor: Colors.green, highlightColor: Colors.green[50]),
+          appBarTheme: const AppBarTheme(
+              elevation: 2,
+              backgroundColor: Colors.green,
+              titleTextStyle: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700)),
         ),
-        textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(
-            backgroundColor: Colors.green,
-            primary: Colors.white,
-            minimumSize: const Size(48, 48),
-          ),
-          // style: ButtonStyle(
-          //   backgroundColor: MaterialStateProperty.all(Colors.green),
-          //   overlayColor: MaterialStateProperty.all(Colors.green[400]),
-          // ),
-        ),
-        buttonTheme: ButtonThemeData(
-          buttonColor: Colors.green,
-          highlightColor: Colors.green[50]
-
-        ),
-        appBarTheme: const AppBarTheme(
-          elevation: 2,
-          backgroundColor: Colors.green,
-          titleTextStyle: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.w700
-          )
-        ),
+        routeInformationParser: BeamerParser(),
+        routerDelegate: _routerDelegate,
       ),
-      routeInformationParser: BeamerParser(),
-      routerDelegate: _routerDelegate,
     );
   }
 }
