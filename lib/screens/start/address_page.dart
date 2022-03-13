@@ -1,11 +1,14 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hohee_record/screens/start/address_service.dart';
 
 import '../../constants/common_size.dart';
 
 class AddressPage extends StatelessWidget {
-  const AddressPage({Key? key}) : super(key: key);
+  AddressPage({Key? key}) : super(key: key);
+
+  TextEditingController _addressController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +18,7 @@ class AddressPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           TextFormField(
+            controller: _addressController,
             decoration: InputDecoration(
               hintText: '도로명으로 검색',
               hintStyle: TextStyle(color: Theme.of(context).hintColor),
@@ -39,7 +43,12 @@ class AddressPage extends StatelessWidget {
             ),
           ),
           TextButton.icon(
-            onPressed: () {},
+            onPressed: () {
+              final text = _addressController.text;
+              if (text.isNotEmpty) {
+                AddressService().searchAddressByStr(text);
+              }
+            },
             // icon: const Icon(
             //   CupertinoIcons.compass,
             //   color: Colors.white,

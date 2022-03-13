@@ -16,7 +16,7 @@ class StartScreen extends StatelessWidget {
         // physics: const NeverScrollableScrollPhysics(),
         children: [
           IntroPage(_pageController),
-          const AddressPage(),
+          AddressPage(),
           AuthPage(),
         ],
       )

@@ -8,18 +8,18 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        TextButton(
-          onPressed: () {
-            context.read<UserProvider>().setUserAuth(false);
-            context.beamToNamed('/');
-          },
-          child: const Text("로그아웃"),
-        ),
-      ],
-    ));
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              context.read<UserProvider>().setUserAuth(false);
+              context.beamToNamed('/');
+            },
+            icon: Icon(Icons.logout),
+          )
+        ],
+      ),
+    );
   }
 }
