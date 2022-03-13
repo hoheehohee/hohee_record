@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:hohee_record/data/AddressModel.dart';
 import 'package:hohee_record/utils/logger.dart';
 
 import '../../constants/keys.dart';
 
 class AddressService {
 
-  void searchAddressByStr(String text) async {
+  Future<AddressModel> searchAddressByStr(String text) async {
     final formData = {
       'key': VWORLD_KEY,
       'request': 'search',
@@ -20,6 +21,8 @@ class AddressService {
       logger.e(e);
     },);
 
-    logger.d(response);
+    AddressModel addressModel = AddressModel.fromJson(response.data['response']);
+    return addressModel;
   }
 }
+
