@@ -29,6 +29,8 @@ final _routerDelegate = BeamerDelegate(
 
 void main() {
   logger.d("hohee app start");
+
+  Provider.debugCheckInvalidValueType = null;
   runApp(MyApp());
 }
 
@@ -88,20 +90,24 @@ class HoheeApp extends StatelessWidget {
               primary: Colors.white,
               minimumSize: const Size(48, 48),
             ),
-            // style: ButtonStyle(
-            //   backgroundColor: MaterialStateProperty.all(Colors.green),
-            //   overlayColor: MaterialStateProperty.all(Colors.green[400]),
-            // ),
           ),
           buttonTheme: ButtonThemeData(
-              buttonColor: Colors.green, highlightColor: Colors.green[50]),
+            buttonColor: Colors.green,
+            highlightColor: Colors.green[50],
+          ),
           appBarTheme: const AppBarTheme(
-              elevation: 2,
-              backgroundColor: Colors.green,
-              titleTextStyle: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700)),
+            elevation: 2,
+            backgroundColor: Colors.green,
+            titleTextStyle: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+            selectedItemColor: Colors.black87,
+            unselectedItemColor: Colors.black54,
+          ),
         ),
         routeInformationParser: BeamerParser(),
         routerDelegate: _routerDelegate,

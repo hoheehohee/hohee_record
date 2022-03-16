@@ -1,8 +1,12 @@
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hohee_record/data/AddressGeocoderModel.dart';
 import 'package:hohee_record/data/AddressModel.dart';
 import 'package:hohee_record/screens/start/address_service.dart';
+import 'package:hohee_record/utils/logger.dart';
+import 'package:location/location.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants/common_size.dart';
 
@@ -15,7 +19,16 @@ class AddressPage extends StatefulWidget {
 
 class _AddressPageState extends State<AddressPage> {
   TextEditingController _addressController = TextEditingController();
+
   AddressModel? _addressModel;
+  List<AddressGeocoderModel> _addressGeocodeModelList = [];
+  bool _isGettingLocation = false;
+
+  @override
+  void dispose() {
+    _addressController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +41,7 @@ class _AddressPageState extends State<AddressPage> {
           TextFormField(
             controller: _addressController,
             onFieldSubmitted: (text) async {
+              _addressGeocodeModelList.clear();
               _addressModel = await AddressService().searchAddressByStr(text);
               setState(() {});
             },
@@ -55,56 +69,142 @@ class _AddressPageState extends State<AddressPage> {
             ),
           ),
           TextButton.icon(
-            onPressed: () {
-              final text = _addressController.text;
-              if (text.isNotEmpty) {
-                AddressService().searchAddressByStr(text);
+            onPressed: () async {
+              _addressModel = null;
+              _addressController.text = '';
+              _addressGeocodeModelList.clear();
+              setState(() {
+                _isGettingLocation = true;
+              });
+              Location location = new Location();
+
+              bool _serviceEnabled;
+              PermissionStatus _permissionGranted;
+              LocationData _locationData;
+
+              _serviceEnabled = await location.serviceEnabled();
+              if (!_serviceEnabled) {
+                _serviceEnabled = await location.requestService();
+                if (!_serviceEnabled) {
+                  return;
+                }
               }
+
+              _permissionGranted = await location.hasPermission();
+              if (_permissionGranted == PermissionStatus.denied) {
+                _permissionGranted = await location.requestPermission();
+                if (_permissionGranted != PermissionStatus.granted) {
+                  return;
+                }
+              }
+
+              _locationData = await location.getLocation();
+              List<AddressGeocoderModel> address = await AddressService().findAddressByCoordinate(
+                  log: _locationData.longitude!,
+                  lat: _locationData.latitude!,
+              );
+              _addressGeocodeModelList.addAll(address);
+
+              logger.d(_addressGeocodeModelList);
+
+              setState(() {
+                _isGettingLocation = false;
+              });
             },
-            // icon: const Icon(
-            //   CupertinoIcons.compass,
-            //   color: Colors.white,
-            //   size: 18,
-            // ),
-            icon: const Icon(
-              Icons.gps_fixed,
-              color: Colors.white,
-              size: 18,
-            ),
-            label: const Text(
-              '현재위치로 찾기',
+            icon: _isGettingLocation
+                ? const SizedBox(
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                    height: 18,
+                    width: 18,
+                  )
+                : const Icon(
+                    Icons.gps_fixed,
+                    color: Colors.white,
+                    size: 18,
+                  ),
+            label: Text(
+              _isGettingLocation ? '위치 정보 조회중...' : '현재위치로 찾기',
             ),
             style: TextButton.styleFrom(
-              minimumSize: Size(10, 48),
+              minimumSize: const Size(10, 48),
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(vertical: common_sm_padding),
-              itemBuilder: (context, index) {
-                if (_addressModel == null ||
-                    _addressModel!.result == null ||
-                    _addressModel!.result!.items == null ||
-                    _addressModel!.result!.items![index].address == null) {
-                  return Container();
-                }
-                return ListTile(
-                  title: Text(
-                      _addressModel!.result!.items![index].address!.road ?? ""),
-                  subtitle: Text(
-                      _addressModel!.result!.items![index].address!.parcel ??
-                          ""),
-                );
-              },
-              itemCount: (_addressModel == null ||
+          if (_addressModel != null)
+            Expanded(
+              child: ListView.builder(
+                padding:
+                    const EdgeInsets.symmetric(vertical: common_sm_padding),
+                itemBuilder: (context, index) {
+                  if (_addressModel == null ||
                       _addressModel!.result == null ||
-                      _addressModel!.result!.items == null)
-                  ? 0
-                  : _addressModel!.result!.items!.length,
+                      _addressModel!.result!.items == null ||
+                      _addressModel!.result!.items![index].address == null) {
+                    return Container();
+                  }
+                  return ListTile(
+                    onTap: () {
+                      _saveAddressAndGoToNextPage(_addressModel!.result!.items![index].address!.road ?? "");
+                    },
+                    title: Text(
+                        _addressModel!.result!.items![index].address!.road ??
+                            ""),
+                    subtitle: Text(
+                        _addressModel!.result!.items![index].address!.parcel ??
+                            ""),
+                  );
+                },
+                itemCount: (_addressModel == null ||
+                        _addressModel!.result == null ||
+                        _addressModel!.result!.items == null)
+                    ? 0
+                    : _addressModel!.result!.items!.length,
+              ),
             ),
-          )
+          if (_addressGeocodeModelList.isNotEmpty)
+            Expanded(
+              child: ListView.builder(
+                padding:
+                    const EdgeInsets.symmetric(vertical: common_sm_padding),
+                itemBuilder: (context, index) {
+                  if (_addressGeocodeModelList[index].result == null ||
+                      _addressGeocodeModelList[index].result!.isEmpty) {
+                    return Container();
+                  }
+                  return ListTile(
+                    onTap: () {
+                      _saveAddressAndGoToNextPage(_addressGeocodeModelList[index].result![0].text ?? "");
+                    },
+                    title: Text(
+                        _addressGeocodeModelList[index].result![0].text ?? ""
+                    ),
+                    subtitle: Text(
+                        _addressGeocodeModelList[index].result![0].zipcode ?? ""
+                    ),
+                  );
+                },
+                itemCount: _addressGeocodeModelList.length,
+              ),
+            )
         ],
       ),
     );
+  }
+
+  _saveAddressAndGoToNextPage(String address) async {
+    _saveAddressOnSharedPreference(address);
+    context.read<PageController>().animateToPage(
+      2,
+      duration: const Duration(
+        milliseconds: 500,
+      ),
+      curve: Curves.ease,
+    );
+  }
+
+  _saveAddressOnSharedPreference(String address) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('address', address);
   }
 }

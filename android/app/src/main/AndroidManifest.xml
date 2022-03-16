@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wwwhohee.hohee_record">
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
    <application
         android:label="hohee_record"
         android:name="${applicationName}"

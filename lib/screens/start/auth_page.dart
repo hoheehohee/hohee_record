@@ -3,7 +3,9 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:hohee_record/states/user_provider.dart';
+import 'package:hohee_record/utils/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/common_size.dart';
 
@@ -191,6 +193,12 @@ class _AuthPageState extends State<AuthPage> {
 
     context.read<UserProvider>().setUserAuth(true);
     context.beamToNamed('/');
+  }
+
+  _getAddress() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String address = prefs.getString('address') ?? "";
+    logger.d(address);
   }
 }
 

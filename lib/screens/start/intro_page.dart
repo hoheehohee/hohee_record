@@ -8,15 +8,12 @@ import '../../constants/common_size.dart';
 import '../../utils/logger.dart';
 
 class IntroPage extends StatelessWidget {
-  PageController controller;
-
-  IntroPage(this.controller, {Key? key}) : super(key: key);
+  IntroPage({Key? key}) : super(key: key);
 
   void onButtonClick() {}
 
   @override
   Widget build(BuildContext context) {
-
     logger.d('current user state: ${context.read<UserProvider>().userState}');
 
     return LayoutBuilder(
@@ -32,10 +29,12 @@ class IntroPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text('Hohee 마켓',
-                    style: Theme.of(context).textTheme.headline4!.copyWith(
-                          color: Theme.of(context).colorScheme.primary,
-                        )),
+                Text(
+                  'Hohee 마켓',
+                  style: Theme.of(context).textTheme.headline4!.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                ),
                 SizedBox(
                   width: imgWidthSize,
                   height: imgWidthSize,
@@ -68,16 +67,18 @@ class IntroPage extends StatelessWidget {
                   children: [
                     TextButton(
                       onPressed: () async {
-                        controller.animateToPage(
-                          1,
-                          duration: const Duration(
-                            milliseconds: 500,
-                          ),
-                          curve: Curves.ease,
-                        );
+                        context.read<PageController>().animateToPage(
+                              1,
+                              duration: const Duration(
+                                milliseconds: 500,
+                              ),
+                              curve: Curves.ease,
+                            );
                         logger.d('on Text button clicked!!');
                       },
-                      child: const Text('내 동네 설정하고 시작하기',),
+                      child: const Text(
+                        '내 동네 설정하고 시작하기',
+                      ),
                     ),
                   ],
                 )
