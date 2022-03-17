@@ -5,6 +5,7 @@ import 'package:hohee_record/states/user_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/logger.dart';
+import 'home/items_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -38,6 +39,15 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {},
             icon: const Icon(CupertinoIcons.text_justify),
           )
+        ],
+      ),
+      body: IndexedStack(
+        index: _bottomSelectedIndex,
+        children: [
+          ItemsPage(),
+          Container(color: Colors.accents[1]),
+          Container(color: Colors.accents[2]),
+          Container(color: Colors.accents[3]),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

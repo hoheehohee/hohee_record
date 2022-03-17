@@ -83,6 +83,8 @@ class HoheeApp extends StatelessWidget {
             button: TextStyle(
               color: Colors.white,
             ),
+            subtitle1: TextStyle(color: Colors.black87, fontSize: 18),
+            subtitle2: TextStyle(color: Colors.grey, fontSize: 13),
           ),
           textButtonTheme: TextButtonThemeData(
             style: TextButton.styleFrom(
