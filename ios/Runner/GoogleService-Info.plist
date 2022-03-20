@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>402633002047-4kvk292mnd43i975m9ll5lsgjnr7rg5s.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.402633002047-4kvk292mnd43i975m9ll5lsgjnr7rg5s</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>402633002047-0dkgqpeqvm9smo194stgcg9epa3tiahj.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCQBhytM32Xj9kTfnueqwAHVV-A_vqSWt4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>402633002047</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.wwwhohee.hoheeRecord</string>
+	<key>PROJECT_ID</key>
+	<string>hohee-record</string>
+	<key>STORAGE_BUCKET</key>
+	<string>hohee-record.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:402633002047:ios:1c7a64a422bf72d349bc8a</string>
+</dict>
+</plist>

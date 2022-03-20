@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "402633002047",
+    "project_id": "hohee-record",
+    "storage_bucket": "hohee-record.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:402633002047:android:3dfcfa59e1c6b1a649bc8a",
+        "android_client_info": {
+          "package_name": "com.wwwhohee.hohee_record"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "402633002047-0dkgqpeqvm9smo194stgcg9epa3tiahj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wwwhohee.hohee_record",
+            "certificate_hash": "e2bc25188e2342d55493211f0a5471057e7d150b"
+          }
+        },
+        {
+          "client_id": "402633002047-h1rgqjdskho99k47835fdmp5kn7uu9l7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCq3mudgrG5gXNXIlqaXZMcCCu6ODSczTA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "402633002047-h1rgqjdskho99k47835fdmp5kn7uu9l7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
