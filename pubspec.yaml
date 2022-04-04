@@ -43,6 +43,7 @@ dependencies:
   location: ^4.3.0
   shared_preferences: ^2.0.13
   firebase_core: ^1.13.1
+  firebase_auth: ^3.3.11
 
 dev_dependencies:
   flutter_test:

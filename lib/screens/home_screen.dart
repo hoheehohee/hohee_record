@@ -1,4 +1,5 @@
 import 'package:beamer/beamer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hohee_record/states/user_provider.dart';
@@ -26,8 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              context.read<UserProvider>().setUserAuth(false);
-              context.beamToNamed('/');
+              context.beamToNamed('/auth');
+              FirebaseAuth.instance.signOut();
             },
             icon: const Icon(Icons.logout),
           ),
