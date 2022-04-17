@@ -27,8 +27,10 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              context.beamToNamed('/auth');
               FirebaseAuth.instance.signOut();
+              Future.delayed(const Duration(seconds: 1), () => {
+                context.beamToNamed('/auth')
+              });
             },
             icon: const Icon(Icons.logout),
           ),

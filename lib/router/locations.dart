@@ -17,18 +17,20 @@ class HomeLocation extends BeamLocation<BeamState> {
   @override
   List<BeamPage> buildPages(BuildContext context, BeamState state) {
     return [
-      if (state.uri.pathSegments.contains('home'))
-        BeamPage(
-          key: ValueKey('home'),
-          title: 'home',
-          child: HomeScreen(),
-        ),
       if (state.uri.pathSegments.contains('auth'))
         BeamPage(
           key: ValueKey('auth'),
           title: 'auth In',
           child: StartScreen(),
-        ),
+        )
+     else
+      BeamPage(
+        key: ValueKey('home'),
+        title: 'home',
+        child: HomeScreen(),
+      )
+
+
     ];
   }
 }

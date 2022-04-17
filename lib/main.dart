@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hohee_record/router/locations.dart';
 import 'package:hohee_record/screens/splash_screen.dart';
-import 'package:hohee_record/screens/start_screen.dart';
 import 'package:hohee_record/states/user_provider.dart';
 import 'package:hohee_record/utils/logger.dart';
 import 'package:provider/provider.dart';
@@ -13,13 +12,26 @@ final _routerDelegate = BeamerDelegate(
     BeamGuard(
       pathPatterns: ['/'],
       check: (context, location) {
+        logger.d("##### home: ${context.read<UserProvider>().user}");
         return context.read<UserProvider>().user != null;
         // return true;
       },
       beamToNamed: (origin, target) => '/auth',
       // showPage: BeamPage(child: StartScreen())
     ),
+    BeamGuard(
+      pathPatterns: ['/auth'],
+      check: (context, location) {
+        logger.d("##### auth: ${context.read<UserProvider>().user}");
+        return context.read<UserProvider>().user == null;
+        // return true;
+      },
+      beamToNamed: (origin, target) => '/home',
+      // showPage: BeamPage(child: StartScreen())
+    ),
+
   ],
+  initialPath: '/auth',
   locationBuilder: (routeInformation, _) => HomeLocation(routeInformation),
   // locationBuilder: BeamerLocationBuilder(
   //   beamLocations: [
@@ -27,7 +39,6 @@ final _routerDelegate = BeamerDelegate(
   //     AuthLocation(),
   //   ],
   // ),
-  initialPath: '/home'
 );
 
 void main() async {
@@ -78,11 +89,12 @@ class HoheeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.d("hoheeApp start");
     return ChangeNotifierProvider<UserProvider>(
       create: (BuildContext context) {
+        logger.d("##### create");
         return UserProvider();
       },
+
       child: MaterialApp.router(
         theme: ThemeData(
           primarySwatch: Colors.green,
