@@ -2,6 +2,8 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hohee_record/constants/common_size.dart';
+import 'package:hohee_record/repo/user_service.dart';
+import 'package:hohee_record/utils/logger.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ItemsPage extends StatelessWidget {
@@ -42,71 +44,76 @@ class ItemsPage extends StatelessWidget {
         );
       },
       itemBuilder: (context, index) {
-        return SizedBox(
-          height: imgSize,
-          child: Row(
-            children: [
-              SizedBox(
-                height: imgSize,
-                width: imgSize,
-                child: ExtendedImage.network(
-                  'https://picsum.photos/100',
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(10),
+        return InkWell(
+          onTap: () {
+            UserService().firestoreReadTest();
+          },
+          child: SizedBox(
+            height: imgSize,
+            child: Row(
+              children: [
+                SizedBox(
+                  height: imgSize,
+                  width: imgSize,
+                  child: ExtendedImage.network(
+                    'https://picsum.photos/100',
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
-              ),
-              const SizedBox(
-                width: common_sm_padding,
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'work',
-                      style: Theme.of(context).textTheme.subtitle1,
-                    ),
-                    Text(
-                      '52일 전',
-                      style: Theme.of(context).textTheme.subtitle2,
-                    ),
-                    Text('700,00원'),
-                    Expanded(child: Container()),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        SizedBox(
-                          height: 20,
-                          child: FittedBox(
-                            fit: BoxFit.fitHeight,
-                            child: Row(
-                              children: [
-                                Icon(
-                                  CupertinoIcons.chat_bubble_2,
-                                  color: Colors.grey,
-                                ),
-                                Text(
-                                  '23',
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                                Icon(
-                                  CupertinoIcons.heart,
-                                  color: Colors.grey,
-                                ),
-                                Text(
-                                  '23',
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                              ],
+                const SizedBox(
+                  width: common_sm_padding,
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'work',
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                      Text(
+                        '52일 전',
+                        style: Theme.of(context).textTheme.subtitle2,
+                      ),
+                      Text('700,00원'),
+                      Expanded(child: Container()),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          SizedBox(
+                            height: 20,
+                            child: FittedBox(
+                              fit: BoxFit.fitHeight,
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    CupertinoIcons.chat_bubble_2,
+                                    color: Colors.grey,
+                                  ),
+                                  Text(
+                                    '23',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                  Icon(
+                                    CupertinoIcons.heart,
+                                    color: Colors.grey,
+                                  ),
+                                  Text(
+                                    '23',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              )
-            ],
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         );
       },
