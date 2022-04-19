@@ -1,7 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hohee_record/constants/data_keys.dart';
 import 'package:hohee_record/utils/logger.dart';
 
 class UserService {
+
+  /**
+   * when to create user model on firestore(21:00)
+   */
+  static final UserService _userService = UserService._internal();
+  factory UserService() => _userService;
+  UserService._internal();
+
+  Future createNewUser(Map<String, dynamic> json, String userKey) async {
+    DocumentReference<Map<String, dynamic>> documentReference = FirebaseFirestore.instance
+        .collection(COL_USERS)
+        .doc(userKey);
+
+    final DocumentSnapshot documentSnapshot = await documentReference.get();
+
+    if (!documentSnapshot.exists) {
+      await documentReference.set(json);
+    }
+  }
+
   Future firestoreTest() async {
     FirebaseFirestore.instance
         .collection('TESTING_COLLECTION')
@@ -20,4 +41,6 @@ class UserService {
         .then((DocumentSnapshot<Map<String, dynamic>> value) =>
             logger.d(value.data()));
   }
+
+
 }

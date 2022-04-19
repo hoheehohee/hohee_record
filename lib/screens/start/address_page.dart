@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hohee_record/constants/shared_pref_key.dart';
 import 'package:hohee_record/data/AddressGeocoderModel.dart';
 import 'package:hohee_record/data/AddressModel.dart';
 import 'package:hohee_record/screens/start/address_service.dart';
@@ -145,7 +146,11 @@ class _AddressPageState extends State<AddressPage> {
                   }
                   return ListTile(
                     onTap: () {
-                      _saveAddressAndGoToNextPage(_addressModel!.result!.items![index].address!.road ?? "");
+                      _saveAddressAndGoToNextPage(
+                        _addressModel!.result!.items![index].address!.road ?? "",
+                        num.parse(_addressModel!.result!.items![index].point!.y ?? "0"),
+                        num.parse(_addressModel!.result!.items![index].point!.x ?? "0"),
+                      );
                     },
                     title: Text(
                         _addressModel!.result!.items![index].address!.road ??
@@ -174,7 +179,11 @@ class _AddressPageState extends State<AddressPage> {
                   }
                   return ListTile(
                     onTap: () {
-                      _saveAddressAndGoToNextPage(_addressGeocodeModelList[index].result![0].text ?? "");
+                      _saveAddressAndGoToNextPage(
+                        _addressGeocodeModelList[index].result![0].text ?? "",
+                        num.parse(_addressGeocodeModelList[index].input!.point!.y ?? "0"),
+                        num.parse(_addressGeocodeModelList[index].input!.point!.x ?? "0"),
+                      );
                     },
                     title: Text(
                         _addressGeocodeModelList[index].result![0].text ?? ""
@@ -192,8 +201,8 @@ class _AddressPageState extends State<AddressPage> {
     );
   }
 
-  _saveAddressAndGoToNextPage(String address) async {
-    _saveAddressOnSharedPreference(address);
+  _saveAddressAndGoToNextPage(String address, num lat, num lon) async {
+    _saveAddressOnSharedPreference(address, lat, lon);
     context.read<PageController>().animateToPage(
       2,
       duration: const Duration(
@@ -203,8 +212,10 @@ class _AddressPageState extends State<AddressPage> {
     );
   }
 
-  _saveAddressOnSharedPreference(String address) async {
+  _saveAddressOnSharedPreference(String address, num lat, num lon) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('address', address);
+    await prefs.setString(SHARED_ADDRESS, address);
+    await prefs.setDouble(SHARED_LAT, lat.toDouble());
+    await prefs.setDouble(SHARED_LON, lon.toDouble());
   }
 }
