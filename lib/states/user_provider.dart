@@ -22,7 +22,7 @@ class UserProvider extends ChangeNotifier {
       logger.d('user status - $user');
       notifyListeners();
     });
-  }˚
+  }
 
   Future _setNewUser(User? user) async {
     _user = user;
@@ -50,4 +50,5 @@ class UserProvider extends ChangeNotifier {
   }
 
   User? get user => _user;
+  UserModel? get userModel => _userModel;
 }

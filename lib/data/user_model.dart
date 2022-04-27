@@ -26,12 +26,19 @@ class UserModel {
     this.reference
   });
 
+  /**
+   * model coding style 01
+   */
   // UserModel.fromJson(Map<String, dynamic> json, this.userKey, this.reference) {
   //   phoneNumber = json['phoneNumber'];
   //   address = json['address'];
   //   geoFirePoint = GeoFirePoint((json['geoFirePoint']['geopoint']).latitude, (json['geoFirePoint']['geopoint']).longitude);
   //   createDate = json['createDate'] == null ?  DateTime.now().toUtc() : (json['createDate'] as Timestamp).toDate();
   // }
+
+  /**
+   * model coding style 02
+   */
   UserModel.fromJson(Map<String, dynamic> json, this.userKey, this.reference)
       : phoneNumber = json['phoneNumber'],
         address = json['address'],
@@ -43,6 +50,7 @@ class UserModel {
 
   /**
    * get saved user model from firestore (15:00)
+   * user 정보 model
    */
   UserModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot)
       : this.fromJson(snapshot.data()!, snapshot.id, snapshot.reference);

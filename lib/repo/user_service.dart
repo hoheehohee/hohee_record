@@ -12,6 +12,9 @@ class UserService {
   factory UserService() => _userService;
   UserService._internal();
 
+  /**
+   * user 정보 생성
+   */
   Future createNewUser(Map<String, dynamic> json, String userKey) async {
     DocumentReference<Map<String, dynamic>> documentReference = FirebaseFirestore.instance
         .collection(COL_USERS)
@@ -24,6 +27,9 @@ class UserService {
     }
   }
 
+  /**
+   * user 정보 조회
+   */
   Future<UserModel> getUserModel(String userKey) async {
     DocumentReference<Map<String, dynamic>> documentReference = FirebaseFirestore.instance
         .collection(COL_USERS)

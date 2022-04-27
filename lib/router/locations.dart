@@ -1,18 +1,16 @@
 import 'package:beamer/beamer.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hohee_record/screens/start_screen.dart';
 import 'package:hohee_record/screens/home_screen.dart';
 import 'package:hohee_record/utils/logger.dart';
 
-
 class HomeLocation extends BeamLocation<BeamState> {
-  HomeLocation(RouteInformation routeInformation) : super(routeInformation);
-
   @override
   List<String> get pathPatterns => [
-    '/home',
-    '/auth',
-  ];
+        '/home',
+        '/auth',
+      ];
 
   @override
   List<BeamPage> buildPages(BuildContext context, BeamState state) {
@@ -23,14 +21,33 @@ class HomeLocation extends BeamLocation<BeamState> {
           title: 'auth In',
           child: StartScreen(),
         )
-     else
-      BeamPage(
-        key: ValueKey('home'),
-        title: 'home',
-        child: HomeScreen(),
-      )
+      else
+        BeamPage(
+          key: ValueKey('home'),
+          title: 'home',
+          child: HomeScreen(),
+        )
+    ];
+  }
+}
 
+class InputLocation extends BeamLocation<BeamState> {
+  @override
+  // TODO: implement pathPatterns
+  List<Pattern> get pathPatterns => ['/input'];
 
+  @override
+  List<BeamPage> buildPages(BuildContext context, BeamState state) {
+    return [
+      ...HomeLocation().buildPages(context, state),
+      if (state.pathPatternSegments.contains('input'))
+        BeamPage(
+            key: ValueKey('input'),
+            child: Scaffold(
+                appBar: AppBar(
+                  title: const Text('Create New Item'),
+                ),
+                body: Container(color: Colors.white)))
     ];
   }
 }

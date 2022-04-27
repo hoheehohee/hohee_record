@@ -32,13 +32,13 @@ final _routerDelegate = BeamerDelegate(
 
   ],
   initialPath: '/auth',
-  locationBuilder: (routeInformation, _) => HomeLocation(routeInformation),
-  // locationBuilder: BeamerLocationBuilder(
-  //   beamLocations: [
-  //     HomeLocation(),
-  //     AuthLocation(),
-  //   ],
-  // ),
+  // locationBuilder: (routeInformation, _) => HomeLocation(routeInformation),
+  locationBuilder: BeamerLocationBuilder(
+    beamLocations: [
+      HomeLocation(),
+      InputLocation(),
+    ],
+  ),
 );
 
 void main() async {

@@ -2,9 +2,12 @@ import 'package:beamer/beamer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hohee_record/repo/user_service.dart';
 import 'package:hohee_record/states/user_provider.dart';
+import 'package:hohee_record/widgets/expandable_fad.dart';
 import 'package:provider/provider.dart';
 
+import '../data/user_model.dart';
 import '../utils/logger.dart';
 import 'home/items_page.dart';
 
@@ -20,17 +23,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    UserModel? userModel = context.watch<UserProvider>().userModel;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text('대산로 56'),
+        title: Text(userModel == null ? '' : userModel.address),
         actions: [
           IconButton(
             onPressed: () {
               FirebaseAuth.instance.signOut();
-              Future.delayed(const Duration(seconds: 1), () => {
-                context.beamToNamed('/auth')
-              });
+              Future.delayed(const Duration(seconds: 1),
+                  () => {context.beamToNamed('/auth')});
             },
             icon: const Icon(Icons.logout),
           ),
@@ -53,6 +57,35 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(color: Colors.accents[3]),
         ],
       ),
+      floatingActionButton: ExpandableFab(
+        distance: 90,
+        children: [
+          MaterialButton(
+            onPressed: () {
+              context.beamToNamed('/input');
+            },
+            shape: CircleBorder(),
+            height: 40,
+            color: Theme.of(context).colorScheme.primary,
+            child: Icon(Icons.add),
+          ),
+          MaterialButton(
+            onPressed: () {},
+            shape: CircleBorder(),
+            height: 40,
+            color: Theme.of(context).colorScheme.primary,
+            child: Icon(Icons.add),
+          ),
+          // MaterialButton(
+          //   onPressed: () {},
+          //   shape: CircleBorder(),
+          //   height: 24,
+          //   color: Theme.of(context).colorScheme.primary,
+          //   child: Icon(Icons.add),
+          // ),
+
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _bottomSelectedIndex,
         type: BottomNavigationBarType.fixed,
@@ -73,33 +106,33 @@ class _HomeScreenState extends State<HomeScreen> {
             label: '홈',
           ),
           BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage(
-                  _bottomSelectedIndex == 1
-                      ? 'assets/imgs/selected_placeholder.png'
-                      : 'assets/imgs/placeholder.png',
-                ),
+            icon: ImageIcon(
+              AssetImage(
+                _bottomSelectedIndex == 1
+                    ? 'assets/imgs/selected_placeholder.png'
+                    : 'assets/imgs/placeholder.png',
               ),
+            ),
             label: '내 위치',
           ),
           BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage(
-                  _bottomSelectedIndex == 2
-                      ? 'assets/imgs/selected_smartphone_10.png'
-                      : 'assets/imgs/smartphone_10.png',
-                ),
+            icon: ImageIcon(
+              AssetImage(
+                _bottomSelectedIndex == 2
+                    ? 'assets/imgs/selected_smartphone_10.png'
+                    : 'assets/imgs/smartphone_10.png',
               ),
+            ),
             label: '내 위치',
           ),
           BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage(
-                  _bottomSelectedIndex == 3
-                      ? 'assets/imgs/selected_user_3.png'
-                      : 'assets/imgs/user_3.png',
-                ),
+            icon: ImageIcon(
+              AssetImage(
+                _bottomSelectedIndex == 3
+                    ? 'assets/imgs/selected_user_3.png'
+                    : 'assets/imgs/user_3.png',
               ),
+            ),
             label: '내 위치',
           ),
         ],
