@@ -5,6 +5,8 @@ import 'package:hohee_record/screens/start_screen.dart';
 import 'package:hohee_record/screens/home_screen.dart';
 import 'package:hohee_record/utils/logger.dart';
 
+import '../screens/input/input_screen.dart';
+
 class HomeLocation extends BeamLocation<BeamState> {
   @override
   List<String> get pathPatterns => [
@@ -17,12 +19,12 @@ class HomeLocation extends BeamLocation<BeamState> {
     return [
       if (state.uri.pathSegments.contains('auth'))
         BeamPage(
-          key: ValueKey('auth'),
+          key: const ValueKey('auth'),
           title: 'auth In',
           child: StartScreen(),
         )
       else
-        BeamPage(
+        const BeamPage(
           key: ValueKey('home'),
           title: 'home',
           child: HomeScreen(),
@@ -41,13 +43,10 @@ class InputLocation extends BeamLocation<BeamState> {
     return [
       ...HomeLocation().buildPages(context, state),
       if (state.pathPatternSegments.contains('input'))
-        BeamPage(
-            key: ValueKey('input'),
-            child: Scaffold(
-                appBar: AppBar(
-                  title: const Text('Create New Item'),
-                ),
-                body: Container(color: Colors.white)))
+        const BeamPage(
+          key: ValueKey('input'),
+          child: InputScreen(),
+        )
     ];
   }
 }
