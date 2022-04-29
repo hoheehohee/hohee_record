@@ -1,3 +1,4 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 
 /**
@@ -13,6 +14,31 @@ class InputScreen extends StatefulWidget {
 class _InputScreenState extends State<InputScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("중고거래 글쓰기"),
+        leading: TextButton(
+            onPressed: () {
+              context.beamBack();
+            },
+            child: Text(
+              '뒤로',
+              style: Theme.of(context).textTheme.bodyText2
+            )
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {},
+            child: Text(
+              '완료',
+              style: Theme.of(context).textTheme.bodyText2
+            ),
+          )
+        ],
+      ),
+      body: Container(
+        color: Colors.white,
+      ),
+    );
   }
 }
