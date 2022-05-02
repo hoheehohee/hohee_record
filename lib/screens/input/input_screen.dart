@@ -1,6 +1,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:hohee_record/constants/common_size.dart';
 import 'package:hohee_record/widgets/multi_image_select.dart';
 
@@ -15,6 +16,8 @@ class InputScreen extends StatefulWidget {
 }
 
 class _InputScreenState extends State<InputScreen> {
+  TextEditingController _priceController = TextEditingController();
+
   bool _suggestPriceSelected = false;
 
   final _divider = Divider(
@@ -23,6 +26,10 @@ class _InputScreenState extends State<InputScreen> {
     thickness: 1,
     indent: common_padding,
     endIndent: common_padding,
+  );
+
+  var _border = UnderlineInputBorder(
+    borderSide: BorderSide(color: Colors.transparent),
   );
 
   @override
@@ -50,14 +57,11 @@ class _InputScreenState extends State<InputScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: common_padding),
               child: TextFormField(
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText: '글 제목',
-                  border: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                  ),
+                  border: _border,
+                  enabledBorder: _border,
+                  focusedBorder: _border,
                 ),
               ),
             ),
@@ -73,6 +77,17 @@ class _InputScreenState extends State<InputScreen> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: common_padding),
                     child: TextFormField(
+                      onChanged: (value) {
+                        if (value == '0원') {
+                          _priceController.clear();
+                        }
+                        setState(() {});
+                      },
+                      controller: _priceController,
+                      inputFormatters: [
+                        MoneyInputFormatter(
+                            mantissaLength: 0, trailingSymbol: '원')
+                      ],
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         hintText: '얼마에 파시겠어요?',
@@ -80,21 +95,17 @@ class _InputScreenState extends State<InputScreen> {
                           const ExtendedAssetImageProvider(
                               'assets/imgs/won.png'),
                           size: 20,
-                          color: Colors.grey[350],
+                          color: (_priceController.text.isEmpty)
+                              ? Colors.grey[350]
+                              : Colors.black87,
                         ),
                         prefixIconConstraints:
                             const BoxConstraints(maxWidth: 20),
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: common_sm_padding),
-                        border: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
-                        ),
-                        enabledBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
-                        ),
-                        focusedBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
-                        ),
+                        border: _border,
+                        enabledBorder: _border,
+                        focusedBorder: _border,
                       ),
                     ),
                   ),
@@ -106,7 +117,9 @@ class _InputScreenState extends State<InputScreen> {
                     });
                   },
                   icon: Icon(
-                    Icons.check_circle_outline,
+                    _suggestPriceSelected
+                        ? Icons.check_circle
+                        : Icons.check_circle_outline,
                     color: _suggestPriceSelected
                         ? Theme.of(context).primaryColor
                         : Colors.black54,
@@ -126,6 +139,19 @@ class _InputScreenState extends State<InputScreen> {
                 )
               ],
             ),
+            _divider,
+            TextFormField(
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
+              decoration: InputDecoration(
+                hintText: '올릴 게시글 내용을 작성해주세요.',
+                contentPadding: const EdgeInsets.symmetric(horizontal: common_padding),
+                border: _border,
+                enabledBorder: _border,
+                focusedBorder: _border,
+              ),
+            ),
+            _divider
           ],
         ));
   }
