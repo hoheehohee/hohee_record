@@ -62,7 +62,6 @@ class MultiImageSelect extends StatelessWidget {
                         shape: BoxShape.rectangle,
                       ),
                     ),
-
                     Positioned(
                       right: 0,
                       top: 0,
