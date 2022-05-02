@@ -46,19 +46,35 @@ class MultiImageSelect extends StatelessWidget {
                 ),
               ),
               ...List.generate(
-                100,
-                (index) => Padding(
-                  padding: const EdgeInsets.only(
-                    right: common_padding,
-                    top: common_padding,
-                    bottom: common_padding,
-                  ),
-                  child: ExtendedImage.network(
-                    'https://picsum.photos/100',
-                    width: imageSize,
-                    borderRadius: BorderRadius.circular(imageCorner),
-                    shape: BoxShape.rectangle,
-                  ),
+                20,
+                (index) => Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        right: common_padding,
+                        top: common_padding,
+                        bottom: common_padding,
+                      ),
+                      child: ExtendedImage.network(
+                        'https://picsum.photos/100',
+                        width: imageSize,
+                        borderRadius: BorderRadius.circular(imageCorner),
+                        shape: BoxShape.rectangle,
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      width: 40,
+                      height: 40,
+                      child: IconButton(
+                        padding: const EdgeInsets.all(8),
+                        onPressed: () {},
+                        icon: const Icon(Icons.remove_circle),
+                        color: Colors.black54,
+                      ),
+                    )
+                  ],
                 ),
               )
             ],
