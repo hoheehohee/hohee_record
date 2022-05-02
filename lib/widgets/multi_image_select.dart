@@ -1,3 +1,4 @@
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/common_size.dart';
@@ -12,6 +13,8 @@ class MultiImageSelect extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         Size _size = MediaQuery.of(context).size;
+        var imageSize = (_size.width / 3) - common_padding * 2;
+        var imageCorner = 16.0;
 
         return SizedBox(
           height: _size.width / 3,
@@ -22,9 +25,9 @@ class MultiImageSelect extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(common_padding),
                 child: Container(
-                  width: (_size.width / 3) - common_padding * 2,
+                  width: imageSize,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(imageCorner),
                     border: Border.all(color: Colors.grey, width: 1),
                   ),
                   child: Column(
@@ -42,11 +45,22 @@ class MultiImageSelect extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(width: 100, color: Colors.blueAccent,),
-              Container(width: 100, color: Colors.cyanAccent,),
-              Container(width: 100, color: Colors.amberAccent,),
-              Container(width: 100, color: Colors.blueAccent,),
-              Container(width: 100, color: Colors.cyanAccent,),
+              ...List.generate(
+                100,
+                (index) => Padding(
+                  padding: const EdgeInsets.only(
+                    right: common_padding,
+                    top: common_padding,
+                    bottom: common_padding,
+                  ),
+                  child: ExtendedImage.network(
+                    'https://picsum.photos/100',
+                    width: imageSize,
+                    borderRadius: BorderRadius.circular(imageCorner),
+                    shape: BoxShape.rectangle,
+                  ),
+                ),
+              )
             ],
           ),
         );

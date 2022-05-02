@@ -53,12 +53,16 @@ class IntroPage extends StatelessWidget {
                 ),
                 const Text(
                   '우리 동네 중고 직거래 hohee 마켓',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green,
+                  ),
                 ),
                 const Text(
                   'hohee마켓은 동네 직거래 마켓이에요.\n내 동네를 설정하고 시작해보세요.',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.w500),
+                  style: TextStyle(fontWeight: FontWeight.w500, color: Colors.green,),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
