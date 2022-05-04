@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hohee_record/repo/user_service.dart';
-import 'package:hohee_record/states/user_provider.dart';
+import 'package:hohee_record/states/user_notifier.dart';
 import 'package:hohee_record/widgets/expandable_fad.dart';
 import 'package:provider/provider.dart';
 

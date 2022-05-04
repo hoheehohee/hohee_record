@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hohee_record/router/locations.dart';
 import 'package:hohee_record/screens/splash_screen.dart';
-import 'package:hohee_record/states/user_provider.dart';
+import 'package:hohee_record/states/user_notifier.dart';
 import 'package:hohee_record/utils/logger.dart';
 import 'package:provider/provider.dart';
 

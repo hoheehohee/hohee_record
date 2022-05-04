@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:hohee_record/states/user_provider.dart';
+import 'package:hohee_record/states/user_notifier.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants/common_size.dart';

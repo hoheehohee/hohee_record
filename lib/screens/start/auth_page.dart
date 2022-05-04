@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:hohee_record/constants/shared_pref_key.dart';
-import 'package:hohee_record/states/user_provider.dart';
+import 'package:hohee_record/states/user_notifier.dart';
 import 'package:hohee_record/utils/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
