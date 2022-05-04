@@ -66,10 +66,13 @@ class _InputScreenState extends State<InputScreen> {
               ),
             ),
             _divider,
-            const ListTile(
+            ListTile(
               dense: true,
               title: Text('선택'),
               trailing: Icon(Icons.navigate_next),
+              onTap: () {
+                context.beamToNamed('/input/category_input');
+              },
             ),
             Row(
               children: [
