@@ -12,8 +12,8 @@ final _routerDelegate = BeamerDelegate(
     BeamGuard(
       pathPatterns: ['/'],
       check: (context, location) {
-        logger.d("##### home: ${context.read<UserProvider>().user}");
-        return context.read<UserProvider>().user != null;
+        logger.d("##### home: ${context.read<UserNotifier>().user}");
+        return context.read<UserNotifier>().user != null;
         // return true;
       },
       beamToNamed: (origin, target) => '/auth',
@@ -22,8 +22,8 @@ final _routerDelegate = BeamerDelegate(
     BeamGuard(
       pathPatterns: ['/auth'],
       check: (context, location) {
-        logger.d("##### auth: ${context.read<UserProvider>().user}");
-        return context.read<UserProvider>().user == null;
+        logger.d("##### auth: ${context.read<UserNotifier>().user}");
+        return context.read<UserNotifier>().user == null;
         // return true;
       },
       beamToNamed: (origin, target) => '/home',
@@ -89,10 +89,10 @@ class HoheeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<UserProvider>(
+    return ChangeNotifierProvider<UserNotifier>(
       create: (BuildContext context) {
         logger.d("##### create");
-        return UserProvider();
+        return UserNotifier();
       },
 
       child: MaterialApp.router(

@@ -4,9 +4,11 @@ import 'package:flutter/widgets.dart';
 import 'package:hohee_record/screens/start_screen.dart';
 import 'package:hohee_record/screens/home_screen.dart';
 import 'package:hohee_record/utils/logger.dart';
+import 'package:provider/provider.dart';
 
 import '../screens/input/category_input_screen.dart';
 import '../screens/input/input_screen.dart';
+import '../states/category_notifier.dart';
 
 class HomeLocation extends BeamLocation<BeamState> {
   @override
@@ -38,6 +40,18 @@ class InputLocation extends BeamLocation<BeamState> {
   @override
   // TODO: implement pathPatterns
   List<Pattern> get pathPatterns => ['/input', '/input/category_input'];
+
+  /**
+   * notifier provider 전달
+   */
+  @override
+  Widget builder(BuildContext context, Widget navigator) {
+    // TODO: implement builder
+    return ChangeNotifierProvider.value(
+      value: categoryNotifier,
+      child: super.builder(context, navigator),
+    );
+  }
 
   @override
   List<BeamPage> buildPages(BuildContext context, BeamState state) {

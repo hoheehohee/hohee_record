@@ -7,8 +7,8 @@ import 'package:hohee_record/repo/user_service.dart';
 import 'package:hohee_record/utils/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserProvider extends ChangeNotifier {
-  UserProvider() {
+class UserNotifier extends ChangeNotifier {
+  UserNotifier() {
     initUser();
   }
 

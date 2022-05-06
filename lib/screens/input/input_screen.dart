@@ -3,7 +3,9 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:hohee_record/constants/common_size.dart';
+import 'package:hohee_record/states/category_notifier.dart';
 import 'package:hohee_record/widgets/multi_image_select.dart';
+import 'package:provider/provider.dart';
 
 /**
  * 중고거래 아이템 등록 페이지
@@ -68,8 +70,8 @@ class _InputScreenState extends State<InputScreen> {
             _divider,
             ListTile(
               dense: true,
-              title: Text('선택'),
-              trailing: Icon(Icons.navigate_next),
+              title: Text(context.watch<CategoryNotifier>().currentCategoryInKor),
+              trailing: const Icon(Icons.navigate_next),
               onTap: () {
                 context.beamToNamed('/input/category_input');
               },

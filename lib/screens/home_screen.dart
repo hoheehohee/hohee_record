@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    UserModel? userModel = context.watch<UserProvider>().userModel;
+    UserModel? userModel = context.watch<UserNotifier>().userModel;
 
     return Scaffold(
       appBar: AppBar(
