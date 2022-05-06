@@ -16,7 +16,8 @@ class MultiImageSelect extends StatefulWidget {
 }
 
 class _MultiImageSelectState extends State<MultiImageSelect> {
-  List<XFile> _images = [];
+  List<Uint8List> _images = [];
+  bool _isPickingImages = false;
 
   @override
   Widget build(BuildContext context) {
@@ -36,15 +37,21 @@ class _MultiImageSelectState extends State<MultiImageSelect> {
                 padding: const EdgeInsets.all(common_padding),
                 child: InkWell(
                   onTap: () async {
+                    _isPickingImages = true;
+                    setState(() {});
                     final ImagePicker _picker = ImagePicker();
-                    final List<XFile>? images =
-                        await _picker.pickMultiImage(); // Pick multiple images
+                    final List<XFile>? images = await _picker.pickMultiImage(
+                        imageQuality: 10); // Pick multiple images
 
                     if (images != null && images.isNotEmpty) {
                       _images.clear();
-                      _images.addAll(images);
-                      setState(() {});
+                      images.forEach((xfile) async {
+                        _images.add(await xfile.readAsBytes());
+                      });
                     }
+
+                    _isPickingImages = false;
+                    setState(() {});
                   },
                   child: Container(
                     width: imageSize,
@@ -52,19 +59,24 @@ class _MultiImageSelectState extends State<MultiImageSelect> {
                       borderRadius: BorderRadius.circular(imageCorner),
                       border: Border.all(color: Colors.grey, width: 1),
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.camera_alt,
-                          color: Colors.grey,
-                        ),
-                        Text(
-                          '0/10',
-                          style: Theme.of(context).textTheme.subtitle2,
+                    child: _isPickingImages
+                        ? Padding(
+                          padding: EdgeInsets.all(imageSize / 3),
+                          child: const CircularProgressIndicator(),
                         )
-                      ],
-                    ),
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.camera_alt,
+                                color: Colors.grey,
+                              ),
+                              Text(
+                                '0/10',
+                                style: Theme.of(context).textTheme.subtitle2,
+                              )
+                            ],
+                          ),
                   ),
                 ),
               ),
@@ -78,43 +90,30 @@ class _MultiImageSelectState extends State<MultiImageSelect> {
                         top: common_padding,
                         bottom: common_padding,
                       ),
-                      child: FutureBuilder<Uint8List>(
-                          future: _images[index].readAsBytes(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return ExtendedImage.memory(
-                                snapshot.data!,
-                                width: imageSize,
-                                height: imageSize,
-                                fit: BoxFit.cover,
-                                loadStateChanged: (state) {
-                                  switch (state.extendedImageLoadState) {
-                                    case LoadState.loading:
-                                      return Container(
-                                        width: imageSize,
-                                        height: imageSize,
-                                        padding: EdgeInsets.all(imageSize / 3),
-                                        child: const CircularProgressIndicator(),
-                                      );
-                                    case LoadState.completed:
-                                      return null;
-                                    case LoadState.failed:
-                                    // TODO: Handle this case.
-                                      return Icon(Icons.cancel);
-                                  }
-                                },
-                                borderRadius:
-                                    BorderRadius.circular(imageCorner),
-                                shape: BoxShape.rectangle,
-                              );
-                            } else {
+                      child: ExtendedImage.memory(
+                        _images[index],
+                        width: imageSize,
+                        height: imageSize,
+                        fit: BoxFit.cover,
+                        loadStateChanged: (state) {
+                          switch (state.extendedImageLoadState) {
+                            case LoadState.loading:
                               return Container(
                                 width: imageSize,
                                 height: imageSize,
+                                padding: EdgeInsets.all(imageSize / 3),
                                 child: const CircularProgressIndicator(),
                               );
-                            }
-                          }),
+                            case LoadState.completed:
+                              return null;
+                            case LoadState.failed:
+                              // TODO: Handle this case.
+                              return const Icon(Icons.cancel);
+                          }
+                        },
+                        borderRadius: BorderRadius.circular(imageCorner),
+                        shape: BoxShape.rectangle,
+                      ),
                     ),
                     Positioned(
                       right: 0,
@@ -123,7 +122,10 @@ class _MultiImageSelectState extends State<MultiImageSelect> {
                       height: 40,
                       child: IconButton(
                         padding: const EdgeInsets.all(8),
-                        onPressed: () {},
+                        onPressed: () {
+                          _images.removeAt(index);
+                          setState(() {});
+                        },
                         icon: const Icon(Icons.remove_circle),
                         color: Colors.black54,
                       ),
