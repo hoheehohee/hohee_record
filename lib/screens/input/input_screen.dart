@@ -54,7 +54,7 @@ class _InputScreenState extends State<InputScreen> {
         body: ListView(
           // create new item layout
           children: [
-            const MultiImageSelect(),
+            MultiImageSelect(),
             _divider,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: common_padding),
