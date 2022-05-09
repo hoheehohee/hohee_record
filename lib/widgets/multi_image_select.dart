@@ -2,22 +2,34 @@ import 'dart:typed_data';
 
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:hohee_record/data/animate_list_model.dart';
+import 'package:hohee_record/utils/logger.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../constants/common_size.dart';
+import '../item/image_item.dart';
 
 class MultiImageSelect extends StatefulWidget {
-  MultiImageSelect({
-    Key? key,
-  }) : super(key: key);
+  MultiImageSelect({Key? key, imageCorner}) : super(key: key);
 
   @override
   State<MultiImageSelect> createState() => _MultiImageSelectState();
 }
 
 class _MultiImageSelectState extends State<MultiImageSelect> {
-  List<Uint8List> _images = [];
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  late AnimateListModel<Uint8List> _images;
   bool _isPickingImages = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _images = AnimateListModel<Uint8List>(
+      listKey: _listKey,
+      initialItems: <Uint8List>[],
+      removeItemBuilder: _buildRemoveItem,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,23 +48,7 @@ class _MultiImageSelectState extends State<MultiImageSelect> {
               Padding(
                 padding: const EdgeInsets.all(common_padding),
                 child: InkWell(
-                  onTap: () async {
-                    _isPickingImages = true;
-                    setState(() {});
-                    final ImagePicker _picker = ImagePicker();
-                    final List<XFile>? images = await _picker.pickMultiImage(
-                        imageQuality: 10); // Pick multiple images
-
-                    if (images != null && images.isNotEmpty) {
-                      _images.clear();
-                      images.forEach((xfile) async {
-                        _images.add(await xfile.readAsBytes());
-                      });
-                    }
-
-                    _isPickingImages = false;
-                    setState(() {});
-                  },
+                  onTap: _insert,
                   child: Container(
                     width: imageSize,
                     decoration: BoxDecoration(
@@ -61,9 +57,9 @@ class _MultiImageSelectState extends State<MultiImageSelect> {
                     ),
                     child: _isPickingImages
                         ? Padding(
-                          padding: EdgeInsets.all(imageSize / 3),
-                          child: const CircularProgressIndicator(),
-                        )
+                            padding: EdgeInsets.all(imageSize / 3),
+                            child: const CircularProgressIndicator(),
+                          )
                         : Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -82,61 +78,106 @@ class _MultiImageSelectState extends State<MultiImageSelect> {
               ),
               ...List.generate(
                 _images.length,
-                (index) => Stack(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        right: common_padding,
-                        top: common_padding,
-                        bottom: common_padding,
-                      ),
-                      child: ExtendedImage.memory(
-                        _images[index],
-                        width: imageSize,
-                        height: imageSize,
-                        fit: BoxFit.cover,
-                        loadStateChanged: (state) {
-                          switch (state.extendedImageLoadState) {
-                            case LoadState.loading:
-                              return Container(
-                                width: imageSize,
-                                height: imageSize,
-                                padding: EdgeInsets.all(imageSize / 3),
-                                child: const CircularProgressIndicator(),
-                              );
-                            case LoadState.completed:
-                              return null;
-                            case LoadState.failed:
-                              // TODO: Handle this case.
-                              return const Icon(Icons.cancel);
-                          }
-                        },
-                        borderRadius: BorderRadius.circular(imageCorner),
-                        shape: BoxShape.rectangle,
-                      ),
-                    ),
-                    Positioned(
-                      right: 0,
-                      top: 0,
-                      width: 40,
-                      height: 40,
-                      child: IconButton(
-                        padding: const EdgeInsets.all(8),
-                        onPressed: () {
-                          _images.removeAt(index);
-                          setState(() {});
-                        },
-                        icon: const Icon(Icons.remove_circle),
-                        color: Colors.black54,
-                      ),
-                    )
-                  ],
-                ),
+                (index) => AnimatedList(
+                    key: _listKey,
+                    scrollDirection: Axis.horizontal,
+                    initialItemCount: _images.length,
+                    shrinkWrap: true,
+                    itemBuilder: _buildItem),
               )
+              // ...List.generate(
+              //   _images.length,
+              //   (index) => Stack(
+              //     children: [
+              //       Padding(
+              //         padding: const EdgeInsets.only(
+              //           right: common_padding,
+              //           top: common_padding,
+              //           bottom: common_padding,
+              //         ),
+              //         child: ExtendedImage.memory(
+              //           _images[index],
+              //           width: imageSize,
+              //           height: imageSize,
+              //           fit: BoxFit.cover,
+              //           loadStateChanged: (state) {
+              //             switch (state.extendedImageLoadState) {
+              //               case LoadState.loading:
+              //                 return Container(
+              //                   width: imageSize,
+              //                   height: imageSize,
+              //                   padding: EdgeInsets.all(imageSize / 3),
+              //                   child: const CircularProgressIndicator(),
+              //                 );
+              //               case LoadState.completed:
+              //                 return null;
+              //               case LoadState.failed:
+              //                 // TODO: Handle this case.
+              //                 return const Icon(Icons.cancel);
+              //             }
+              //           },
+              //           borderRadius: BorderRadius.circular(imageCorner),
+              //           shape: BoxShape.rectangle,
+              //         ),
+              //       ),
+              //       Positioned(
+              //         right: 0,
+              //         top: 0,
+              //         width: 40,
+              //         height: 40,
+              //         child: IconButton(
+              //           padding: const EdgeInsets.all(8),
+              //           onPressed: () {
+              //             _images.removeAt(index);
+              //             setState(() {});
+              //           },
+              //           icon: const Icon(Icons.remove_circle),
+              //           color: Colors.black54,
+              //         ),
+              //       )
+              //     ],
+              //   ),
+              // )
             ],
           ),
         );
       },
     );
+  }
+
+  void _insert() async {
+    _isPickingImages = true;
+    setState(() {});
+    final ImagePicker _picker = ImagePicker();
+    // Pick multiple images
+    final List<XFile>? images = await _picker.pickMultiImage(imageQuality: 10);
+
+    if (images != null && images.isNotEmpty) {
+      await _images.clear(_listKey);
+      images.forEach((xfile) async {
+        var t = await xfile.readAsBytes();
+        _images.insert(t);
+      });
+    }
+
+    _isPickingImages = false;
+    setState(() {});
+  }
+
+  void _remove() {
+
+  }
+
+  Widget _buildItem(BuildContext context, int index, Animation<double> animation) {
+
+    Size _size = MediaQuery.of(context).size;
+    var imageSize = (_size.width / 3) - common_padding * 2;
+    var imageCorner = 16.0;
+
+    return ImageItem(imageSize: imageSize, imageCorner: imageCorner, item: _images[index], removeAt: _remove,);
+  }
+
+  Widget _buildRemoveItem(Uint8List item, BuildContext context, Animation<double> animation) {
+    return ImageItem(item: item);
   }
 }
