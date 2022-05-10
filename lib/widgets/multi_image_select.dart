@@ -76,15 +76,13 @@ class _MultiImageSelectState extends State<MultiImageSelect> {
                   ),
                 ),
               ),
-              ...List.generate(
-                _images.length,
-                (index) => AnimatedList(
-                    key: _listKey,
-                    scrollDirection: Axis.horizontal,
-                    initialItemCount: _images.length,
-                    shrinkWrap: true,
-                    itemBuilder: _buildItem),
-              )
+              AnimatedList(
+                key: _images.listKey,
+                scrollDirection: Axis.horizontal,
+                initialItemCount: _images.length,
+                shrinkWrap: true,
+                itemBuilder: _buildItem,
+              ),
               // ...List.generate(
               //   _images.length,
               //   (index) => Stack(
@@ -153,10 +151,9 @@ class _MultiImageSelectState extends State<MultiImageSelect> {
     final List<XFile>? images = await _picker.pickMultiImage(imageQuality: 10);
 
     if (images != null && images.isNotEmpty) {
-      await _images.clear(_listKey);
+      await _images.clear(GlobalKey<AnimatedListState>());
       images.forEach((xfile) async {
-        var t = await xfile.readAsBytes();
-        _images.insert(t);
+        _images.insert(await xfile.readAsBytes());
       });
     }
 
@@ -164,8 +161,8 @@ class _MultiImageSelectState extends State<MultiImageSelect> {
     setState(() {});
   }
 
-  void _remove() {
-
+  void _remove(int index) {
+    _images.removeAt(index);
   }
 
   Widget _buildItem(BuildContext context, int index, Animation<double> animation) {
@@ -173,11 +170,16 @@ class _MultiImageSelectState extends State<MultiImageSelect> {
     Size _size = MediaQuery.of(context).size;
     var imageSize = (_size.width / 3) - common_padding * 2;
     var imageCorner = 16.0;
-
-    return ImageItem(imageSize: imageSize, imageCorner: imageCorner, item: _images[index], removeAt: _remove,);
+    return ImageItem(
+      animation: animation,
+      imageSize: imageSize,
+      imageCorner: imageCorner,
+      item: _images[index],
+      removeAt: () => _remove(index),
+    );
   }
 
   Widget _buildRemoveItem(Uint8List item, BuildContext context, Animation<double> animation) {
-    return ImageItem(item: item);
+    return ImageItem(item: item, animation: animation,);
   }
 }
