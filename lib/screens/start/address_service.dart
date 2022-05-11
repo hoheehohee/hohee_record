@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:hohee_record/data/AddressModel.dart';
+import 'package:hohee_record/data/address_model.dart';
 
 import 'package:hohee_record/utils/logger.dart';
 
 import '../../constants/keys.dart';
-import '../../data/AddressGeocoderModel.dart';
+import '../../data/address_geocoder_model.dart';
 
 class AddressService {
   Future<AddressModel> searchAddressByStr(String text) async {

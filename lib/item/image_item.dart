@@ -26,7 +26,7 @@ class ImageItem extends StatelessWidget {
     return SizeTransition(
       sizeFactor: animation,
       axis: Axis.horizontal,
-      axisAlignment: -3,
+      axisAlignment: -2,
       child: Stack(
         children: [
           Padding(

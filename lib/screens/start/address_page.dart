@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hohee_record/constants/shared_pref_key.dart';
-import 'package:hohee_record/data/AddressGeocoderModel.dart';
-import 'package:hohee_record/data/AddressModel.dart';
+import 'package:hohee_record/data/address_geocoder_model.dart';
+import 'package:hohee_record/data/address_model.dart';
 import 'package:hohee_record/screens/start/address_service.dart';
 import 'package:hohee_record/utils/logger.dart';
 import 'package:location/location.dart';

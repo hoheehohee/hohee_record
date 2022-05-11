@@ -83,59 +83,6 @@ class _MultiImageSelectState extends State<MultiImageSelect> {
                 shrinkWrap: true,
                 itemBuilder: _buildItem,
               ),
-              // ...List.generate(
-              //   _images.length,
-              //   (index) => Stack(
-              //     children: [
-              //       Padding(
-              //         padding: const EdgeInsets.only(
-              //           right: common_padding,
-              //           top: common_padding,
-              //           bottom: common_padding,
-              //         ),
-              //         child: ExtendedImage.memory(
-              //           _images[index],
-              //           width: imageSize,
-              //           height: imageSize,
-              //           fit: BoxFit.cover,
-              //           loadStateChanged: (state) {
-              //             switch (state.extendedImageLoadState) {
-              //               case LoadState.loading:
-              //                 return Container(
-              //                   width: imageSize,
-              //                   height: imageSize,
-              //                   padding: EdgeInsets.all(imageSize / 3),
-              //                   child: const CircularProgressIndicator(),
-              //                 );
-              //               case LoadState.completed:
-              //                 return null;
-              //               case LoadState.failed:
-              //                 // TODO: Handle this case.
-              //                 return const Icon(Icons.cancel);
-              //             }
-              //           },
-              //           borderRadius: BorderRadius.circular(imageCorner),
-              //           shape: BoxShape.rectangle,
-              //         ),
-              //       ),
-              //       Positioned(
-              //         right: 0,
-              //         top: 0,
-              //         width: 40,
-              //         height: 40,
-              //         child: IconButton(
-              //           padding: const EdgeInsets.all(8),
-              //           onPressed: () {
-              //             _images.removeAt(index);
-              //             setState(() {});
-              //           },
-              //           icon: const Icon(Icons.remove_circle),
-              //           color: Colors.black54,
-              //         ),
-              //       )
-              //     ],
-              //   ),
-              // )
             ],
           ),
         );
