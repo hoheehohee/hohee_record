@@ -34,24 +34,27 @@ class ItemModel {
     this.reference,
   });
 
-  ItemModel.fromJson(dynamic json) {
-    itemKey = json['itemKey'];
-    userKey = json['userKey'];
-    title = json['title'];
-    category = json['category'];
-    detail = json['detail'];
-    address = json['address'];
-    price = json['price'];
-    negotiable = json['negotiable'];
+  ItemModel.fromJson(Map<String, dynamic> json, this.itemKey, this.reference) {
+    userKey = json['userKey'] ?? "";
+    title = json['title'] ?? "";
+    category = json['category'] ?? "none";
+    detail = json['detail'] ?? "";
+    address = json['address'] ?? "";
+    price = json['price'] ?? 0;
+    negotiable = json['negotiable'] ?? false;
     imageDownloadUrls = json['imageDownloadUrls'] != null ? json['imageDownloadUrls'].cast<String>() : [];
-    geoFirePoint = json['geoFirePoint'];
-    createdDate = json['createdDate'];
-    reference = json['reference'];
+    geoFirePoint = GeoFirePoint((json['geoFirePoint']['geopoint']).latitude,
+        (json['geoFirePoint']['geopoint']).longitude);
+    createdDate = json['createDate'] == null
+        ?  DateTime.now().toUtc()
+        : (json['createDate'] as Timestamp).toDate();
   }
+
+  ItemModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot)
+      : this.fromJson(snapshot.data()!, snapshot.id, snapshot.reference);
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['itemKey'] = itemKey;
     map['userKey'] = userKey;
     map['title'] = title;
     map['category'] = category;
@@ -60,7 +63,7 @@ class ItemModel {
     map['price'] = price;
     map['negotiable'] = negotiable;
     map['imageDownloadUrls'] = imageDownloadUrls;
-    map['geoFirePoint'] = geoFirePoint;
+    map['geoFirePoint'] = geoFirePoint.data;
     map['createdDate'] = createdDate;
     map['reference'] = reference;
     return map;
